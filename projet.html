@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complexe Jeunes Gabès</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0d1f16;
+    --white:#f4f7f2;
+    --gray-on-black:#a9c2ab;
+    --gray-on-white:#526355;
+    --line-on-black:#1f3a28;
+    --line-on-white:#d7e0d4;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html,body{ height:100%; }
+
+  body{
+    font-family:'Work Sans', sans-serif;
+    color:var(--white);
+    background:var(--black);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{ color:inherit; }
+
+  .page{
+    display:grid;
+    grid-template-columns:1.15fr 1fr;
+    min-height:100vh;
+  }
+
+  /* ---------- ROOF SEAM ---------- */
+  .roof-seam{
+    position:absolute;
+    top:0; left:50%;
+    transform:translateX(-50%);
+    width:220px;
+    height:34px;
+    z-index:5;
+    pointer-events:none;
+  }
+  .roof-seam svg{ width:100%; height:100%; display:block; }
+
+  /* ---------- LEFT : présentation ---------- */
+  .panel-left{
+    background:var(--black);
+    color:var(--white);
+    padding:64px 64px 48px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    position:relative;
+    overflow:hidden;
+  }
+
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--gray-on-black);
+    border:1px solid var(--line-on-black);
+    padding:8px 14px;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    width:fit-content;
+  }
+  .eyebrow::before{
+    content:"";
+    width:6px; height:6px;
+    background:var(--white);
+    border-radius:50%;
+    display:inline-block;
+  }
+
+  .headline{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:500;
+    font-size:clamp(36px,4.4vw,54px);
+    line-height:1.15;
+    letter-spacing:-.01em;
+    margin:40px 0 24px;
+  }
+
+  .headline em{
+    font-style:normal;
+    color:var(--gray-on-black);
+  }
+
+  .lede{
+    font-size:16.5px;
+    line-height:1.65;
+    color:var(--gray-on-black);
+    max-width:440px;
+  }
+
+  .club-list{
+    list-style:none;
+    margin-top:36px;
+    display:flex;
+    flex-direction:column;
+    gap:0;
+    max-width:360px;
+  }
+  .club-list li{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    font-family:'Work Sans', sans-serif;
+    font-size:15px;
+    font-weight:500;
+    color:var(--white);
+    padding:14px 0;
+    border-bottom:1px solid var(--line-on-black);
+  }
+  .club-list li:first-child{ border-top:1px solid var(--line-on-black); }
+  .club-dot{
+    width:7px; height:7px;
+    background:var(--white);
+    border-radius:50%;
+    flex-shrink:0;
+  }
+
+  .left-footer{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:56px;
+    padding-top:24px;
+    border-top:1px solid var(--line-on-black);
+  }
+
+  .facebook-link{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    letter-spacing:.05em;
+    color:var(--white);
+    padding:12px 0;
+    position:relative;
+  }
+  .facebook-link .fb-icon{
+    width:30px; height:30px;
+    border:1px solid var(--white);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    transition:background .2s ease, color .2s ease;
+  }
+  .facebook-link .fb-icon svg{ width:14px; height:14px; }
+  .facebook-link:hover .fb-icon{ background:var(--white); color:var(--black); }
+  .facebook-link .fb-text{ border-bottom:1px solid var(--line-on-black); padding-bottom:2px; }
+
+  .addr{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--gray-on-black);
+    text-align:right;
+    line-height:1.6;
+  }
+
+  /* ---------- RIGHT : connexion ---------- */
+  .panel-right{
+    background:var(--white);
+    color:var(--black);
+    padding:64px 64px 48px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position:relative;
+  }
+
+  form{
+    max-width:380px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+
+  .field{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+
+  .field label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--gray-on-white);
+  }
+
+  .field input{
+    font-family:'Work Sans', sans-serif;
+    font-size:15px;
+    color:var(--black);
+    background:transparent;
+    border:none;
+    border-bottom:1.5px solid var(--black);
+    padding:10px 2px;
+    outline:none;
+    transition:border-color .2s ease, padding-left .2s ease;
+  }
+  .field input::placeholder{ color:#b3b3ae; }
+  .field input:focus{
+    border-color:var(--black);
+    padding-left:8px;
+    background:#00000006;
+  }
+  .field input:focus-visible{
+    outline:2px solid var(--black);
+    outline-offset:2px;
+  }
+
+  .btn-connect{
+    margin-top:10px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    background:var(--black);
+    color:var(--white);
+    border:1.5px solid var(--black);
+    padding:16px 24px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    transition:background .2s ease, color .2s ease;
+  }
+  .btn-connect:hover{ background:var(--white); color:var(--black); }
+  .btn-connect:focus-visible{ outline:2px solid var(--black); outline-offset:3px; }
+  .btn-connect svg{ width:16px; height:16px; }
+
+  .create-account{
+    margin-top:36px;
+    padding-top:28px;
+    border-top:1px solid var(--line-on-white);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    max-width:380px;
+  }
+  .create-account-title{
+    display:block;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:16px;
+    text-transform:uppercase;
+    margin-bottom:4px;
+  }
+  .create-account-text p{
+    font-size:13px;
+    line-height:1.5;
+    color:var(--gray-on-white);
+    max-width:220px;
+  }
+  .btn-create{
+    flex-shrink:0;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--black);
+    background:transparent;
+    text-decoration:none;
+    border:1.5px solid var(--black);
+    padding:12px 18px;
+    cursor:pointer;
+    transition:background .2s ease, color .2s ease;
+  }
+  .btn-create:hover{ background:var(--black); color:var(--white); }
+  .btn-create:focus-visible{ outline:2px solid var(--black); outline-offset:3px; }
+
+  @media (prefers-reduced-motion: reduce){
+    .facebook-link .fb-icon, .btn-connect, .field input{ transition:none; }
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:900px){
+    .page{ grid-template-columns:1fr; }
+    .panel-left, .panel-right{ padding:44px 28px; }
+    .roof-seam{ display:none; }
+    .left-footer{ flex-direction:column; align-items:flex-start; gap:16px; }
+    .addr{ text-align:left; }
+    .create-account{ flex-direction:column; align-items:flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="roof-seam" aria-hidden="true">
+    <svg viewBox="0 0 220 34" preserveAspectRatio="none">
+      <path d="M0,34 L100,4 L110,0 L120,4 L220,34" fill="none" stroke="var(--white)" stroke-width="1.5"/>
+    </svg>
+  </div>
+
+  <!-- ============ GAUCHE : PRÉSENTATION ============ -->
+  <section class="panel-left">
+    <div>
+      <span class="eyebrow">Complexe Jeunes · Gabès</span>
+
+      <h1 class="headline">Tous vos clubs,<br><em>un même toit.</em></h1>
+
+      <p class="lede">
+        L'espace de travail de vos clubs, tous réunis sous un même toit.
+      </p>
+
+      <ul class="club-list">
+        <li><span class="club-dot"></span>Échecs</li>
+        <li><span class="club-dot"></span>Développement web</li>
+        <li><span class="club-dot"></span>Robotique</li>
+      </ul>
+    </div>
+
+    <div class="left-footer">
+      <a class="facebook-link" href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+        <span class="fb-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22c4.78-.79 8.44-4.94 8.44-9.94z"/></svg>
+        </span>
+        <span class="fb-text">Suivez-nous sur Facebook</span>
+      </a>
+      <div class="addr">Complexe Jeunes<br>Gabès, Tunisie</div>
+    </div>
+  </section>
+
+  <!-- ============ DROITE : CONNEXION / CRÉATION DE COMPTE ============ -->
+  <section class="panel-right">
+
+    <div id="loginView">
+      <form id="loginForm">
+        <div class="field">
+          <label for="email">Adresse e-mail</label>
+          <input type="email" id="email" name="email" placeholder="vous@exemple.com" autocomplete="email" required>
+        </div>
+
+        <div class="field">
+          <label for="password">Mot de passe</label>
+          <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password" required>
+        </div>
+
+        <button type="submit" class="btn-connect">
+          Se connecter
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </form>
+
+      <div class="create-account">
+        <div class="create-account-text">
+          <span class="create-account-title">Nouveau ici ?</span>
+          <p>Créez votre compte pour rejoindre un club et accéder à l'espace membres.</p>
+        </div>
+        <button type="button" class="btn-create" id="showSignup">Créer un compte</button>
+      </div>
+    </div>
+
+    <div id="signupView" hidden>
+      <form id="signupForm">
+        <div class="field">
+          <label for="fullname">Nom complet</label>
+          <input type="text" id="fullname" name="fullname" placeholder="Votre nom et prénom" autocomplete="name" required>
+        </div>
+
+        <div class="field">
+          <label for="signup-email">Adresse e-mail</label>
+          <input type="email" id="signup-email" name="signup-email" placeholder="vous@exemple.com" autocomplete="email" required>
+        </div>
+
+        <div class="field">
+          <label for="signup-password">Mot de passe</label>
+          <input type="password" id="signup-password" name="signup-password" placeholder="••••••••" autocomplete="new-password" required>
+        </div>
+
+        <div class="field">
+          <label for="confirm-password">Confirmer le mot de passe</label>
+          <input type="password" id="confirm-password" name="confirm-password" placeholder="••••••••" autocomplete="new-password" required>
+        </div>
+
+        <button type="submit" class="btn-connect">
+          Créer mon compte
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </form>
+
+      <div class="create-account">
+        <div class="create-account-text">
+          <span class="create-account-title">Déjà membre ?</span>
+          <p>Connectez-vous pour retrouver votre espace.</p>
+        </div>
+        <button type="button" class="btn-create" id="showLogin">Se connecter</button>
+      </div>
+    </div>
+
+  </section>
+
+</div>
+
+<script>
+  const loginView = document.getElementById('loginView');
+  const signupView = document.getElementById('signupView');
+
+  document.getElementById('showSignup').addEventListener('click', () => {
+    loginView.hidden = true;
+    signupView.hidden = false;
+  });
+
+  document.getElementById('showLogin').addEventListener('click', () => {
+    signupView.hidden = true;
+    loginView.hidden = false;
+  });
+</script>
+
+</body>
+</html>
